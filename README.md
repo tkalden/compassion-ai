@@ -33,8 +33,7 @@ Data is inserted into vector database in batch of 100 vectors. Then semantic sea
     pip install -r  requirements.txt
     ``` 
 ## Pinecone API Key 
-    *  Follow the instruction here (https://docs.pinecone.io/docs/quickstart) 
-    *  once you have the api key, write it on the .env file for e.g. PINECONE_API_KEY = f4c9c474-73e7-4a4e-9dae-4c96a4bb084a
+   Follow the instruction here (https://docs.pinecone.io/docs/quickstart). Once you have the api key, write it on the .env file for e.g. PINECONE_API_KEY = f4c9c474-73e7-4a4e-9dae-4c96a4bb084a
 
 ## Running the app using Flask 
     python main.py
@@ -43,8 +42,8 @@ Hit the endpoint on 127.0.0.1:5000
 
 ## Running the app from terminal using the arguments
 ### upload data 
-python upload_data.py --index_name "my-index" --urls "http://example1.com" "http://example2.com" 
+    python upload_data.py --index_name "my-index" --urls "http://example1.com" "http://example2.com" 
 Note the index_name is the index of the vector database where you will store all the information. Name must consist of lower case alphanumeric characters or '-'.
 ### query data
-python query_data.py --query "why the sky is blue?"
+    python query_data.py --query "why the sky is blue?"
 
