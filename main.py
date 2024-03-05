@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import argparse
-from src.models.train_model import SemanticSearch
+from src.models.predict_model import PredictionModel
+from src.models.train_model import TrainModel
 from src.util.DLAIUtils import Utils
 from flask import jsonify
 
@@ -13,21 +14,27 @@ def home():
 @app.route('/semantic-search', methods=['POST'])
 def semantic_search():
     query = request.json['query']
-    semantic_search = SemanticSearch()
-    results = semantic_search.search_relevant_text(query)
-    filtered_results = {key: value for key, value in results.items() if key > 0.5}
-    return filtered_results
+    predictmodel = PredictionModel()
+    context = predictmodel.search_relevant_text(query)
+    return predictmodel.generate_prompt_openai(query,context)
 
 @app.route('/upload')
 def upload():
     return render_template('upload.html')
 
-@app.route('/upload-data', methods=['POST'])
-def upload_data():
-    index_name = request.json['index_name']
+@app.route('/websites', methods=['POST'])
+def upload_website_data():
     urls = request.json['urls']
-    semantic_search = SemanticSearch()
-    semantic_search.upload_data_to_pinecone([], urls,index_name)
+    trainmodel = TrainModel()
+    trainmodel.upload_website_data_to_pinecone(urls, 'dl-ai')
+    return "successfully uploaded data to pinecone"
+
+@app.route('/files', methods=['POST'])
+def upload_file_data():
+    files = request.files.getlist('file[]')
+    trainmodel = TrainModel()
+    trainmodel.save_files(files)
+    trainmodel.upload_file_content_to_pinecone('dl-ai')
     return "successfully uploaded data to pinecone"
 
 if __name__ == "__main__":

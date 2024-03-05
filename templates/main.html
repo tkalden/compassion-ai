@@ -2,37 +2,29 @@
 <html>
 
 <head>
-    <title>Tibet Search Engine</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        #results-table {
-            width: 800px;
-            border: 2px solid black;
-            padding: 75px;
-            margin-left: 150px;
-        }
-    </style>
 </head>
 
 <body>
-    <div class="container py-5">
-        <h1 class="mb-4">Tibet Search Engine</h1>
-        <form id="search-form" class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-lg-2" type="search" id="query" name="query"
-                placeholder="Enter your search query here" aria-label="Search" style="width: 500px;">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                <i class="material-icons">search</i>
-            </button>
-            <button class="btn btn-outline-primary my-2 my-sm-0 ml-2" type="button"
-                onclick="window.location.href='/upload'">
-                <i class="material-icons">upload data</i>
-            </button>
-        </form>
+    <div class="container py-5 d-flex justify-content-center align-items-center" style="height: 50vh">
+        <div>
+            <h1 class="mb-4">Tibet Search Engine</h1>
+            <form id="search-form" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-lg-2" type="search" id="query" name="query"
+                    placeholder="Enter your search query here" aria-label="Search" style="width: 500px;">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                    <i class="material-icons">search</i>
+                </button>
+                <button class="btn btn-outline-primary my-2 my-sm-0 ml-2" type="button"
+                    onclick="window.location.href='/upload'">
+                    <i class="material-icons">upload data</i>
+                </button>
+            </form>
+        </div>
     </div>
     <br />
     <br />
-    <table id="results-table">
-        <!-- Search results will be inserted here -->
+    <table id="results-table" class="container d-flex justify-content-center align-items-center"></table>
     </table>
     <script>
         document.getElementById('search-form').addEventListener('submit', function (event) {
@@ -52,12 +44,13 @@
                     var table = document.getElementById('results-table');
                     table.innerHTML = '';
                     for (var key in data) {
-                        var row = table.insertRow(0);
+                        console.log(key);
+                        var row = table.insertRow();
                         var cell2 = row.insertCell();
-                        cell2.innerHTML = data[key];
+                        cell2.innerHTML = key + ':' + '\n' + data[key];
                     }
-                    if (resultsTable.innerHTML !== '') {
-                        resultsTable.style.display = 'block';
+                    if (table.innerHTML !== '') {
+                        table.style.display = 'block';
                     }
                 });
         });

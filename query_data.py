@@ -1,13 +1,15 @@
-from src import SemanticSearch
+from src import PredictionModel
 import argparse
-semanticSearch = SemanticSearch()
+predictModel = PredictionModel()
 
-def query(query):
-    return semanticSearch.search_relevant_text(query)
+def main(query):
+    result = predictModel.search_relevant_text(query)
+    prompt = predictModel.generate_prompt_openai(query,result)
+    return prompt
 
 
-if __name__ == "__query__":
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Semantic Search')
     parser.add_argument('--query', type=str, required=True, help='Search query')
     args = parser.parse_args()
-    query(args.query)
+    main(args.query)

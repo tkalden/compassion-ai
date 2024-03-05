@@ -1,10 +1,10 @@
-from src import SemanticSearch
+from src import TrainModel
 import argparse
-semanticSearch = SemanticSearch()
+trainModel = TrainModel()
 
 
 def main(index_name, urls):
-    return semanticSearch.upload_data_to_pinecone([], urls, index_name)
+    return trainModel.upload_data_to_pinecone([], urls, index_name)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Semantic Search')

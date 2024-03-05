@@ -16,9 +16,9 @@ matplotlib==3.8.2
 torch==2.1.1
 
 langchain==0.0.346
-openai==0.28.1 ## From the notebooks
+openai==1.13.3
 
-pinecone-client==3.0.0dev4
+pinecone-client==3.0.2
 pinecone-datasets==0.5.0rc11
 pinecone-text==0.7.1
 
@@ -28,3 +28,7 @@ tqdm==4.66.1
 datasets==2.15.0
 deepface==0.0.79
 PyPDF2==3.0.1
+OPENAI
+bert-extractive-summarizer
+
+protobuf==3.19.0
