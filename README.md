@@ -9,29 +9,21 @@ Data is inserted into vector database in batch of 100 vectors. Then semantic sea
 
 ## Environment Setup
 ### using conda
-1. I recommend setting up environment using conda - https://www.geeksforgeeks.org/set-up-virtual-environment-for-python-using-anaconda/
-### using venv
-1. First, ensure that you have Python 3 installed on your system. You can check this by running
-    ``` 
-    python3 --version in your terminal
-    ```
-2. Create a virtual environment named venv using the following command. Note this will create venv folder in the root directory of the project
-     ```python3 -m venv venv
-    source venv/bin/activate
-    ```
-3. Activate the virtual environment. The command to do this will depend on your operating system. 
-   * On Unix or MacOS, you use:
-        ```
-        source venv/bin/activate
-        ```
-    * On window
-      ```
-        .\venv\Scripts\activate
-        ``` 
-4. Once the virtual environment is activated
-    ```
+    conda -V
+    conda update conda
+    conda create -n envname python=x.x anaconda
+    conda activate envname
     pip install -r  requirements.txt
-    ``` 
+    
+I recommend setting up environment using conda because most of the ai related packages are alreay installed 
+For more information - https://www.geeksforgeeks.org/set-up-virtual-environment-for-python-using-anaconda/
+
+### using venv
+    python3 --version in your terminal  
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r  requirements.txt
+
 ## Pinecone API Key 
    Follow the instruction here (https://docs.pinecone.io/docs/quickstart). Once you have the api key, write it on the .env file for e.g. PINECONE_API_KEY = f4c9c474-73e7-4a4e-9dae-4c96a4bb084a
 
@@ -46,4 +38,10 @@ Hit the endpoint on 127.0.0.1:5000
 Note the index_name is the index of the vector database where you will store all the information. Name must consist of lower case alphanumeric characters or '-'.
 ### query data
     python query_data.py --query "why the sky is blue?"
+
+## Running the app using flask
+
+    python main.py
+
+
 
