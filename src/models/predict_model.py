@@ -9,6 +9,7 @@ from src.util.DLAIUtils import Utils
 import time
 import logging
 
+
 logging.basicConfig(level=logging.INFO)
 
 class PredictionModel:
@@ -19,6 +20,7 @@ class PredictionModel:
         self.pinecone = self.utils.get_pinecone()
         self.index = self.utils.get_index()
         self.context_limt=10000
+
 
     def qa_with_sources(self, query: str):
         llm = ChatOpenAI(
@@ -40,21 +42,23 @@ class PredictionModel:
         return qa_with_sources(query)
 
     def search_relevant_text(self, query: str):
-        logging.info('Searching for relevant text for: %s', query)
-        embedding = self.model.encode(query).tolist()
-        results = self.index.query(top_k=10, vector=embedding, include_metadata=True, include_values=False)
-        relevant_text = []
+        logging.info('Searching for relevant text for: %s', query)     
+        results = self.index.query(top_k=10, vector=self.model.encode(query).tolist(), include_metadata=True, include_values=False)
+        top_results = []
         for result in results['matches']:
-         if(result['score'] > 0.5):
-            relevant_text.append(result['metadata'])
-        logging.info('Relevant text: %s', relevant_text)
-        return relevant_text
+            while len(top_results) < 3: #returning top 3 relevant text
+             if(result['score'] > 0.5):
+                top_results.append(result['metadata'])
+                logging.info('Score: %s | Result: %s', result['score'], result['metadata'])
+                logging.info('='*100)
+            break
+        return top_results
    
     def generate_prompt_openai(self, query: str, relevant_text: list):
          # get relevant contexts
         contexts = [item['text'] for item in relevant_text]    
         if contexts == []:
-            return {'answer':"No contexts retrieved. Try to answer the question yourself!"} 
+            return {'answer':"No Relevant Information Found. Please upload some more information to know the answer to your question."}  
         # build our prompt with the retrieved contexts included
         prompt_start = (
             "Answer the question based on the context below.\n\n"+

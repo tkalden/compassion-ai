@@ -129,6 +129,7 @@ class TrainModel:
     def allowed_type(self,filename):
         return '.' in filename and filename.rsplit('.', 1)[1].lower() in self.allowed_files
     
+    #need to research more on chunk_size and chunk_overlap
     def text_splitter(self,text):
         return RecursiveCharacterTextSplitter(
             chunk_size=400,
