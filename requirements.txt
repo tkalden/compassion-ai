@@ -32,3 +32,4 @@ OPENAI
 bert-extractive-summarizer
 
 protobuf==3.19.0
+gunicorn==20.0.4
