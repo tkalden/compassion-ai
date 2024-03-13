@@ -21,5 +21,6 @@ COPY . /app
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]
+#setting time out to 0 to avoid gunicorn timeout error and let google cloud auto scaling handle the scaling
+
+CMD exec gunicorn --bind :5000 main:app --workers 1 --threads 8 --timeout 0

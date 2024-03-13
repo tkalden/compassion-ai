@@ -2,8 +2,7 @@ from flask import Flask, render_template, request
 import argparse
 from src.models.predict_model import PredictionModel
 from src.models.train_model import TrainModel
-from src.util.DLAIUtils import Utils
-from flask import jsonify
+import os
 
 app = Flask(__name__)
 

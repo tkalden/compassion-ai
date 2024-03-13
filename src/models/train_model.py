@@ -1,8 +1,4 @@
-import re
 import warnings
-from flask import Flask
-import nltk
-from nltk.tokenize import sent_tokenize
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import torch
@@ -21,7 +17,6 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 warnings.filterwarnings('ignore')
-nltk.download('punkt')
 
 
 class TrainModel:
