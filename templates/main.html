@@ -6,9 +6,9 @@
 </head>
 
 <body>
-    <div class="container py-5 d-flex justify-content-center align-items-center" style="height: 50vh">
-        <div>
-            <h1 class="mb-4">Tibet Search Engine</h1>
+    <div class="container py-5 d-flex justify-content-center">
+        <div class="d-flex flex-column">
+            <h1 class="mb-4 align-items-start">Tibet Search Engine</h1>
             <form id="search-form" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-lg-2" type="search" id="query" name="query"
                     placeholder="Enter your search query here" aria-label="Search" style="width: 500px;">
@@ -20,12 +20,12 @@
                     <i class="material-icons">upload data</i>
                 </button>
             </form>
+            <div id="results-container" class="p-3 my-2 align-items-start"
+                style="overflow-y: auto; width: 500px; height: 30vh;">
+                <text id="results-table"></text>
+            </div>
         </div>
     </div>
-    <br />
-    <br />
-    <table id="results-table" class="container d-flex justify-content-center align-items-center"></table>
-    </table>
     <script>
         document.getElementById('search-form').addEventListener('submit', function (event) {
             event.preventDefault();
@@ -41,16 +41,19 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    var table = document.getElementById('results-table');
-                    table.innerHTML = '';
-                    for (var key in data) {
-                        console.log(key);
-                        var row = table.insertRow();
-                        var cell2 = row.insertCell();
-                        cell2.innerHTML = key + ':' + '\n' + data[key];
-                    }
-                    if (table.innerHTML !== '') {
-                        table.style.display = 'block';
+                    var answer = document.getElementById('results-table');
+                    answer.innerHTML = data.answer.replace(/\n/g, '<br />');
+                    sources = data.sources
+                    sources.forEach((source, i) => {
+                        var link = document.createElement('a');
+                        link.href = source;
+                        link.target = "_blank";
+                        link.innerHTML = '<sup>' + '[' + (i + 1) + ']' + '</sup>';
+                        answer.appendChild(link);
+                    });
+
+                    if (answer.innerHTML !== '') {
+                        answer.style.display = 'block';
                     }
                 });
         });
