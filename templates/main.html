@@ -1,61 +1,206 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chat Interface</title>
+    <style>
+        /* Simple chat styling */
+        #chat-container {
+            width: 300px;
+            border: 1px solid black;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #chat-box {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            /* Added font-family */
+
+        }
+
+        #input-text {
+            margin-bottom: 10px;
+        }
+
+        #response {
+            margin-bottom: 10px;
+        }
+
+        #user-input-container {
+            display: flex;
+            align-items: center;
+        }
+
+        #user-input {
+            padding: 8px 15px;
+            flex: 1;
+            margin-right: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #send-btn {
+            padding: 8px 15px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Custom styles for carousel */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Float four columns side by side */
+        .column {
+            float: left;
+            width: 25%;
+            padding: 0 10px;
+        }
+
+
+        /* Responsive columns */
+        @media screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+                display: block;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Style the counter cards */
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 16px;
+            text-align: center;
+            background-color: #f1f1f1;
+        }
+
+        /* Remove extra left and right margins, due to padding */
+        .row {
+            margin: 0 -5px;
+            margin-left: 50px;
+            margin-right: 50px;
+
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container py-5 d-flex justify-content-center">
-        <div class="d-flex flex-column">
-            <h1 class="mb-4 align-items-start">Tibet Search Engine</h1>
-            <form id="search-form" class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-lg-2" type="search" id="query" name="query"
-                    placeholder="Enter your search query here" aria-label="Search" style="width: 500px;">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                    <i class="material-icons">search</i>
-                </button>
-                <button class="btn btn-outline-primary my-2 my-sm-0 ml-2" type="button"
-                    onclick="window.location.href='/upload'">
-                    <i class="material-icons">upload data</i>
-                </button>
-            </form>
-            <div id="results-container" class="p-3 my-2 align-items-start"
-                style="overflow-y: auto; width: 500px; height: 30vh;">
-                <text id="results-table"></text>
-            </div>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <div id="user-input-container" style="display: flex; justify-content: center; align-items: center;">
+            <input type="text" id="user-input" placeholder="Type your message..." style="margin-right: 5px;">
+            <button id="send-btn">Send</button>
         </div>
     </div>
-    <script>
-        document.getElementById('search-form').addEventListener('submit', function (event) {
-            event.preventDefault();
-            var query = document.getElementById('query').value;
-            fetch('/semantic-search', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    query: query
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    var answer = document.getElementById('results-table');
-                    answer.innerHTML = data.answer.replace(/\n/g, '<br />');
-                    sources = data.sources
-                    sources.forEach((source, i) => {
-                        var link = document.createElement('a');
-                        link.href = source;
-                        link.target = "_blank";
-                        link.innerHTML = '<sup>' + '[' + (i + 1) + ']' + '</sup>';
-                        answer.appendChild(link);
-                    });
+    <div class="row">
+        {% for i in range(0,4) %}
+        <div class="column">
+            <div class="card">
+                <h3>Card 1</h3>
+                <p>Some text</p>
+                <p>Some text</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-                    if (answer.innerHTML !== '') {
-                        answer.style.display = 'block';
-                    }
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var chatBox = document.getElementById("chat-box");
+            var userInput = document.getElementById("user-input");
+            var sendBtn = document.getElementById("send-btn");
+
+            // Function to add user message to chat box
+            function addUserMessage(message) {
+                var userMessage = document.createElement("div");
+                userMessage.style.marginBottom = "10px";
+                userMessage.innerHTML = "<strong>You : </strong>" + message;
+                chatBox.appendChild(userMessage);
+            }
+
+            // Function to add chatbot response to chat box
+            function addChatbotResponse(response) {
+                var chatbotResponse = document.createElement("div");
+                chatbotResponse.style.marginBottom = "10px";
+                chatbotResponse.innerHTML = "<strong>TibetAI : </strong>" + response.answer.replace(/\n/g, '<br />');
+                let sources = response.sources
+                sources.forEach((source, i) => {
+                    var link = document.createElement('a');
+                    link.href = source;
+                    link.target = "_blank";
+                    link.innerHTML = '<sup>' + '[' + (i + 1) + ']' + '</sup>';
+                    chatbotResponse.appendChild(link);
                 });
+                chatBox.appendChild(chatbotResponse);
+            }
+
+            // Function to handle user input and chatbot response
+            function handleUserInput() {
+                var userInputText = userInput.value.trim();
+
+                if (userInputText !== "") {
+                    // Display user message
+                    addUserMessage(userInputText);
+
+                    // Simulate a chatbot response (replace with actual response generation logic)
+                    fetch('/semantic-search', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            query: userInputText
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(answer => addChatbotResponse(answer)); // Add this line to add the chatbot response to the chat box
+                    userInput.value = "";
+                }
+            }
+
+            // Event listener for send button click
+            sendBtn.addEventListener("click", function () {
+                handleUserInput();
+            });
+
+            // Event listener for pressing Enter key in input field
+            userInput.addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    handleUserInput();
+                }
+            });
         });
     </script>
+
 </body>
+
+</html>

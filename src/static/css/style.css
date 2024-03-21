@@ -1,0 +1,104 @@
+
+.select {
+    width: 100%;
+    min-width: 15ch;
+    max-width: 30ch;
+    border: 1px solid var(--select-border);
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color:rgba(255, 255, 255, 0.914);
+    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+}
+
+.select {
+    align-items: center;
+}
+
+.select:after {
+    justify-self: end;
+}
+
+.navbar-brand
+    {
+      font-size: larger;
+    }
+
+.navbar {
+      padding : 10px
+    }
+
+.navbar-nav > li{
+    padding-left:40px;
+    padding-right:40px;
+}
+
+.navbar-nav > li{
+    margin-left:50px;
+    margin-right:50px;
+  }
+    
+.topnav-right {
+    float: right;
+    }
+        
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+
+.body-content {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 5rem;
+    min-height: 80vh;
+}
+
+#page-container {
+    position: relative;
+  }
+
+.first-col {
+    position: absolute;
+    width: 5em;
+    margin-left: -5em;
+}
+
+.pagination > li > a
+{
+    background-color:white;
+    color: black;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: white;
+    background-color: black;
+    border-color: white;
+}
+
+.pagination > .active > a
+{
+    color: white;
+    background-color: black !Important;
+    border: solid 1px white !Important;
+}
+
+.pagination > .active > a:hover
+{
+    background-color: black !Important;
+    border: solid 1px white;
+}
+
+
+
+
+
+

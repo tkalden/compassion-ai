@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('main.html')
+    return render_template('search.html')
 
 @app.route('/semantic-search', methods=['POST'])
 def semantic_search():
@@ -40,4 +40,4 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Semantic Search')
     parser.add_argument('--port', type=int, default=5000, help='Port number')
     args = parser.parse_args()
-    app.run(port=args.port)
+    app.run(port=args.port,debug=True)

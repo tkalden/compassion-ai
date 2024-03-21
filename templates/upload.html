@@ -1,74 +1,65 @@
-<!DOCTYPE html>
-<html>
+{% extends "home.html" %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Upload Websites</h1>
+    <form id="upload-form" onsubmit="uploadWebsites(event)">
+        <!-- <input type="text" name="index_name" placeholder="Enter index name" class="form-control my-2"> -->
+        <div id="url-inputs">
+            <input type="text" name="urls[]" placeholder="Enter a URL" class="form-control my-2">
+        </div>
+        <button type="button" onclick="addUrlInput()" class="btn btn-secondary my-2">Add another URL</button>
+        <input type="submit" value="Upload" class="btn btn-primary my-2">
+    </form>
+    <br />
+    <h1 class="mb-4">Upload Files</h1>
+    <form id="uploadForm" enctype="multipart/form-data" onsubmit="uploadFiles(event)">
+        <div class=" file-upload-container">
+            <input type="file" name="file[]" multiple>
+        </div>
+        <button type="button" onclick="addMoreFiles()" class="btn btn-secondary my-2">Add More Files</button>
+        <input type="submit" value="Upload" class="btn btn-primary my-2">
+    </form>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    function addUrlInput() {
+        var urlInputs = document.getElementById('url-inputs');
+        var newInput = document.createElement('input');
+        newInput.type = 'text';
+        newInput.name = 'urls[]';
+        newInput.placeholder = 'Enter a URL';
+        newInput.className = 'form-control my-2';
+        urlInputs.appendChild(newInput);
+    }
 
-<head>
-    <title>Upload Data</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script>
-        function addUrlInput() {
-            var urlInputs = document.getElementById('url-inputs');
-            var newInput = document.createElement('input');
-            newInput.type = 'text';
-            newInput.name = 'urls[]';
-            newInput.placeholder = 'Enter a URL';
-            newInput.className = 'form-control my-2';
-            urlInputs.appendChild(newInput);
-        }
+    function uploadWebsites(event) {
+        event.preventDefault();
+        var urls = Array.from(document.querySelectorAll('input[name="urls[]"]')).map(input => input.value);
+        fetch('/websites', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ urls: urls })
+        }).then(response => response.text()).then(alert);
+    }
+    function addMoreFiles(event) {
+        var container = document.querySelector('.file-upload-container');
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.name = 'file[]';
+        container.appendChild(input);
+    }
 
-        function uploadWebsites(event) {
-            event.preventDefault();
-            var urls = Array.from(document.querySelectorAll('input[name="urls[]"]')).map(input => input.value);
-            fetch('/websites', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ urls: urls })
-            }).then(response => response.text()).then(alert);
-        }
-        function addMoreFiles(event) {
-            var container = document.querySelector('.file-upload-container');
-            var input = document.createElement('input');
-            input.type = 'file';
-            input.name = 'file[]';
-            container.appendChild(input);
-        }
-
-        function uploadFiles(event) {
-            event.preventDefault();
-            var form = document.getElementById('uploadForm');
-            var formData = new FormData(form);
-            fetch('/files', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.text()).then(alert);
-        }
-
-
-    </script>
-</head>
-
-<body>
-    <div class="container py-5">
-        <h1 class="mb-4">Upload Websites</h1>
-        <form id="upload-form" onsubmit="uploadWebsites(event)">
-            <!-- <input type="text" name="index_name" placeholder="Enter index name" class="form-control my-2"> -->
-            <div id="url-inputs">
-                <input type="text" name="urls[]" placeholder="Enter a URL" class="form-control my-2">
-            </div>
-            <button type="button" onclick="addUrlInput()" class="btn btn-secondary my-2">Add another URL</button>
-            <input type="submit" value="Upload" class="btn btn-primary my-2">
-        </form>
-        <br />
-        <h1 class="mb-4">Upload Files</h1>
-        <form id="uploadForm" enctype="multipart/form-data" onsubmit="uploadFiles(event)">
-            <div class=" file-upload-container">
-                <input type="file" name="file[]" multiple>
-            </div>
-            <button type="button" onclick="addMoreFiles()" class="btn btn-secondary my-2">Add More Files</button>
-            <input type="submit" value="Upload" class="btn btn-primary my-2">
-        </form>
-    </div>
-</body>
-
-</html>
+    function uploadFiles(event) {
+        event.preventDefault();
+        var form = document.getElementById('uploadForm');
+        var formData = new FormData(form);
+        fetch('/files', {
+            method: 'POST',
+            body: formData
+        }).then(response => response.text()).then(alert);
+    }
+</script>
+{% endblock %}
